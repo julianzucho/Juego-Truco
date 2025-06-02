@@ -62,7 +62,7 @@ public class MotorTruco {
     public void jugarCarta(Carta carta) {
         if (!turnoJugador || esperandoRespuestaTruco) return;
 
-        //jugador.removerCarta(carta);
+        jugador.getCartas().remove(carta);
         jugadasJugador.add(carta);
 
         panel.animarCartaJugador(carta);
