@@ -1,30 +1,38 @@
 package truco.modelo;
+
 import java.util.ArrayList;
-import java.util.List;
 
-public abstract class Jugador {
-    protected String nombre;
-    protected List<Carta> cartas = new ArrayList<>();
-    protected int puntos;
+public class Jugador {
+    private String nombre;
+    private ArrayList<Carta> mano;
+    private Equipo equipo;
+    private int puntosEnvido;
+    private int puntosFlor;
 
-    public Jugador(String nombre) {
+    public Jugador(String nombre, Equipo equipo) {
         this.nombre = nombre;
-        this.puntos = 0;
+        this.equipo = equipo;
+        this.mano = new ArrayList<>();
     }
 
-    public abstract Carta jugarCarta();
-
-    public abstract String elegirAccion();
-
-    public abstract int cantarTantos();
-    public List<Carta> getCartas() { return cartas; }
-
-    public void recibirCartas(List<Carta> nuevas) {
-        cartas.clear();
-        cartas.addAll(nuevas);
+    public void recibirCarta(Carta carta) {
+        mano.add(carta);
     }
 
-    public void sumarPuntos(int puntos) { this.puntos += puntos; }
-    public int getPuntos() { return puntos; }
+    public Carta jugarCarta(int indice) {
+        return mano.remove(indice);
+    }
+
+    public void limpiarMano() {
+        mano.clear();
+    }
+
+    // Getters y setters
+    public ArrayList<Carta> getMano() { return mano; }
     public String getNombre() { return nombre; }
+    public Equipo getEquipo() { return equipo; }
+    public int getPuntosEnvido() { return puntosEnvido; }
+    public void setPuntosEnvido(int puntos) { this.puntosEnvido = puntos; }
+    public int getPuntosFlor() { return puntosFlor; }
+    public void setPuntosFlor(int puntos) { this.puntosFlor = puntos; }
 }

@@ -1,49 +1,26 @@
 package truco.modelo;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 
-import java.awt.*;
-
-public class Carta {
+public abstract class Carta implements Comparable<Carta> {
+    private int valor;
     private String palo;
-    private int numero;
-    private int poderTruco;
+    private int peso;
 
-    public Carta(String palo, int numero, int poderTruco) {
+    public Carta(int valor, String palo, int peso) {
+        this.valor = valor;
         this.palo = palo;
-        this.numero = numero;
-        this.poderTruco = poderTruco;
+        this.peso = peso;
     }
 
-    public String getPalo() { return palo; }
-    public int getNumero() { return numero; }
-    public int getPoderTruco() { return poderTruco; }
-
-    public int getValorEnvido() {
-        return (numero >= 10) ? 0 : numero;
-    }
+    public abstract int getValorEnvido();
+    public abstract int getValorFlor();
 
     @Override
-    public String toString() {
-        return numero + " de " + palo;
+    public int compareTo(Carta otra) {
+        return Integer.compare(this.peso, otra.peso);
     }
 
-    public int getValorTruco() {
-        return poderTruco;
-    }
-    public int comparar(Carta otra) {
-        return Integer.compare(this.getValorTruco(), otra.getValorTruco());
-    }
-    // Devuelve el nombre del archivo, ej: "1_espada.png"
-    public String getNombreArchivo() {
-        return numero + "_" + palo + ".png";
-    }
-
-    public Image getImagen() {
-        String path = "/cartas/" + getNombreArchivo();
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
-        return icon.getImage();
-    }
-
-
+    // Getters y setters
+    public int getValor() { return valor; }
+    public String getPalo() { return palo; }
+    public int getPeso() { return peso; }
 }
