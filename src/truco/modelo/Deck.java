@@ -14,7 +14,7 @@ public class Deck {
     private void inicializarMazo() {
         String[] palos = {"Espada", "Basto", "Oro", "Copa"};
         int[] valores = {1, 2, 3, 4, 5, 6, 7, 10, 11, 12};
-        int[] pesos = {14, 9, 10, 1, 2, 3, 11, 5, 6, 7}; // Pesos según jerarquía del truco
+        int[] pesos = {14, 9, 10, 1, 2, 3, 11, 5, 6, 7};
 
         for (String palo : palos) {
             for (int i = 0; i < valores.length; i++) {

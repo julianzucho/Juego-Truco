@@ -1,6 +1,7 @@
 package truco.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Jugador {
     private String nombre;
@@ -20,6 +21,9 @@ public class Jugador {
     }
 
     public Carta jugarCarta(int indice) {
+        if (indice < 0 || indice >= mano.size()) {
+            throw new IllegalArgumentException("Índice de carta inválido");
+        }
         return mano.remove(indice);
     }
 
@@ -27,12 +31,14 @@ public class Jugador {
         mano.clear();
     }
 
-    // Getters y setters
-    public ArrayList<Carta> getMano() { return mano; }
+    // Getters
+    public List<Carta> getMano() { return mano; }
     public String getNombre() { return nombre; }
     public Equipo getEquipo() { return equipo; }
     public int getPuntosEnvido() { return puntosEnvido; }
-    public void setPuntosEnvido(int puntos) { this.puntosEnvido = puntos; }
     public int getPuntosFlor() { return puntosFlor; }
+
+    // Setters
+    public void setPuntosEnvido(int puntos) { this.puntosEnvido = puntos; }
     public void setPuntosFlor(int puntos) { this.puntosFlor = puntos; }
 }

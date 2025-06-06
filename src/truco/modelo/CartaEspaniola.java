@@ -14,9 +14,4 @@ public class CartaEspaniola extends Carta {
     public int getValorFlor() {
         return (getValor() < 10) ? getValor() : 0;
     }
-
-    @Override
-    public String toString() {
-        return getValor() + " de " + getPalo();
-    }
 }

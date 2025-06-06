@@ -19,8 +19,13 @@ public abstract class Carta implements Comparable<Carta> {
         return Integer.compare(this.peso, otra.peso);
     }
 
-    // Getters y setters
+    // Getters
     public int getValor() { return valor; }
     public String getPalo() { return palo; }
     public int getPeso() { return peso; }
+
+    @Override
+    public String toString() {
+        return valor + " de " + palo;
+    }
 }

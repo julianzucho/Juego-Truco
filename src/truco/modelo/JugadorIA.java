@@ -1,31 +1,21 @@
 package truco.modelo;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 public class JugadorIA extends Jugador {
-    private Random random = new Random();
-
     public JugadorIA(String nombre, Equipo equipo) {
         super(nombre, equipo);
     }
 
-    public Carta jugarCartaAleatoria() {
-        ArrayList<Carta> mano = getMano();
-        int indice = random.nextInt(mano.size());
-        return jugarCarta(indice);
-    }
-
-    public boolean decidirSiAceptaTruco() {
-        return random.nextBoolean();
-    }
-
-    public int cantarEnvido() {
-        // Lógica simple para decidir si cantar envido
-        int puntosPosibles = 0;
-        for (Carta carta : getMano()) {
-            puntosPosibles += carta.getValorEnvido();
+    public int decidirCartaAJugar() {
+        // Lógica simple de IA: juega la carta más alta
+        List<Carta> mano = getMano();
+        int mejorCartaIndex = 0;
+        for (int i = 1; i < mano.size(); i++) {
+            if (mano.get(i).compareTo(mano.get(mejorCartaIndex)) > 0) {
+                mejorCartaIndex = i;
+            }
         }
-        return (puntosPosibles > 20) ? puntosPosibles : 0;
+        return mejorCartaIndex;
     }
 }

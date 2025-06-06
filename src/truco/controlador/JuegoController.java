@@ -1,5 +1,5 @@
 package truco.controlador;
-
+import truco.modelo.Equipo;
 import truco.modelo.*;
 import truco.vista.InterfazUsuario;
 
@@ -9,44 +9,52 @@ public class JuegoController {
 
     public JuegoController(InterfazUsuario interfaz) {
         this.interfaz = interfaz;
-        this.partida = new Partida();
     }
 
     public void iniciarJuego() {
-        interfaz.mostrarMensaje("¡Bienvenido al Truco Argentino!");
+        ConfiguracionJuego config = obtenerConfiguracion();
+        partida = new Partida(config);
 
-        while (!partida.isPartidaTerminada()) {
-            partida.nuevaRonda();
-            jugarRonda();
+        while (!partida.terminada()) {
+            partida.iniciarNuevaRonda();
+            partida.jugarRondaActual();
+            mostrarResultadoRonda();
         }
 
-        mostrarGanador();
+        mostrarGanadorPartida();
     }
 
-    private void jugarRonda() {
+    private ConfiguracionJuego obtenerConfiguracion() {
+        // Mostrar menú para seleccionar modo de juego
+        String[] opcionesModo = {"Individual", "Equipos"};
+        int opcionModo = interfaz.pedirOpcion(opcionesModo);
+
+        ModoJuego modo = (opcionModo == 0) ? ModoJuego.INDIVIDUAL : ModoJuego.EQUIPOS;
+
+        // Pedir nombres de jugadores según el modo
+        String[] nombres = pedirNombresJugadores(modo);
+
+        return new ConfiguracionJuego(modo, nombres.length, nombres, 30);
+    }
+
+    private String[] pedirNombresJugadores(ModoJuego modo) {
+        if (modo == ModoJuego.INDIVIDUAL) {
+            return new String[]{"Jugador 1", "Jugador 2"};
+        } else {
+            return new String[]{"Jugador 1 (Equipo A)", "Jugador 2 (Equipo B)",
+                    "Jugador 3 (Equipo A)", "Jugador 4 (Equipo B)"};
+        }
+    }
+
+    private void mostrarResultadoRonda() {
         Ronda ronda = partida.getRondaActual();
-
-        while (!ronda.isTerminada()) {
-            Jugador jugadorActual = ronda.getJugadorActual();
-            interfaz.mostrarMensaje("\nTurno de: " + jugadorActual.getNombre());
-
-            if (jugadorActual.equals(partida.getJugadores().get(0))) { // Jugador humano
-                interfaz.mostrarCartas(jugadorActual);
-                int opcion = interfaz.pedirOpcion(new String[]{"Jugar carta", "Cantar truco", "Ir al mazo"});
-                // Lógica para manejar la opción seleccionada
-            } else {
-                // Lógica para IA
-            }
-
-            ronda.siguienteTurno();
-        }
-
-        // Sumar puntos al equipo ganador
+        interfaz.mostrarMensaje("Resultado de la ronda:");
+        interfaz.mostrarMensaje("Ganador: " + ronda.getGanador().getNombre());
+        interfaz.mostrarPuntos(partida.getPuntosEquipo1(), partida.getPuntosEquipo2());
     }
 
-    private void mostrarGanador() {
-        String mensaje = partida.getPuntosEquipo1() > partida.getPuntosEquipo2() ?
-                "¡Equipo 1 gana la partida!" : "¡Equipo 2 gana la partida!";
-        interfaz.mostrarMensaje(mensaje);
+    private void mostrarGanadorPartida() {
+        String ganador = partida.getGanador().getNombre();
+        interfaz.mostrarMensaje("¡¡ " + ganador + " gana la partida !!");
     }
 }
